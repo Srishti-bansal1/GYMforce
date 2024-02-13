@@ -21,6 +21,11 @@ class EMViewSet(viewsets.ModelViewSet):
         serializer = EMSerializer(queryset,many=True) 
         return Response(serializer.data)
     
+    @action(detail=True, methods=["GET"],url_path='one_display') 
+    def retriveCustom(self, request,pk=None):
+        queryset = EMmodel.objects.get(pk=pk)
+        serializer = EMSerializer(queryset) 
+        return Response(serializer.data)
     
     
     @action(detail=False, methods=["POST"],url_path='create')
