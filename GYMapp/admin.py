@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import EMmodel, Loginuser
+from .models import EMmodel
 
 class EMReorderFields(admin.ModelAdmin):
     fields = ['name','username','email','password','department','position','address']    # list of fields with the order of fields that are required to be displayed
@@ -11,4 +11,3 @@ class EMReorderFields(admin.ModelAdmin):
     
 # registering the Question model
 admin.site.register(EMmodel, EMReorderFields)
-admin.site.register(Loginuser)
