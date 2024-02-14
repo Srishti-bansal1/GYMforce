@@ -12,7 +12,12 @@ class EMSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = EMmodel
-        fields = ('name','username','email','department','address')
+        fields = ('__all__')
+        
+class TokenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EMmodel
+        fields = ('name','username','email','department','position','address')
         
         
 '''class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):

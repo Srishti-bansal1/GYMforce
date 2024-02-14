@@ -25,7 +25,7 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter(trailing_slash=False)
 router.register(r'Em',EMViewSet, basename='Em')
-router.register(r'log',LogViewSet, basename='log')
+router.register(r'login',LogViewSet, basename='login')
 router.register(r'custom_token',customToken, basename='custom_token')
 # router.register(r'token', CustomTokenObtainPairView , basename='token' )
 
