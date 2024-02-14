@@ -2,7 +2,7 @@
 <html>
     <body>
         <h2>Login Page</h2>
-        <form id="Login" autocomplete="on">
+        <form id="loginForm"  autocomplete="on">
             <label for="username">User Name:</label><br>
             <input type="text" id="username" name="username" ><br>
             <label for="password">Password:</label><br>
@@ -13,43 +13,43 @@
 
         <div id="output"></div>
 
-        <script>
-            let Login = document.getElementById("Login");
-            Login.addEventListener("submit", (e) => {
+	<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const loginForm = document.getElementById("loginForm");
+            loginForm.addEventListener("submit", function(e) {
                 e.preventDefault();
-                let username = document.getElementById('username').value
-                let password = document.getElementById('password').value
-
-                console.log({username, password});
-                console.log(Login)
-            // handle submit
-            if (username.value == "" || password.value == ""  )
-            {
+                const username = document.getElementById('username').value
+                const password = document.getElementById('password').value
+                if (username.value == "" || password.value == "") {
                 alert("Ensure you input a value in both fields!");
-            } else {
+                } else {
                 // perform operation with form input
                 alert("This form has been successfully submitted!"
                 );
-            username.value = "";
-            password.value = "" ;
+
+                username.value = "";
+                password.value = "";
+
             }
 
             var jsonData = {
-            username : username,
-            password : password ,
+                username: username,
+                password: password
             };
+
             console.log(jsonData)
             let jsonString = JSON.stringify(jsonData)
-            fetch('http://127.0.0.1:7000/em/log/get_user',
-            { method: 'GET',
+
+
+            fetch(`http://127.0.0.1:7000/em/login/get_user?username=${username}&password=${password}`,{ method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 // Add any additional headers if needed
             },
-            params:jsonString ,
+           
         })
             .then(response => {
-                if (response.ok) {
+                if (response.jsonString) {
                     alert('Data submitted successfully!');
                     // Optionally, you can redirect or perform other actions after successful submission.
                 } else {
@@ -60,8 +60,11 @@
                 console.error('Error fetching data:', error);
                 document.getElementById('output').innerHTML = '<p>Error fetching data</p>';
             });
-          });   
+          });
+          });
+        
             
-        </script>
+	</script>
+
     </body>
 </html>
