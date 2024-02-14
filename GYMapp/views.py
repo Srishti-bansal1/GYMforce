@@ -7,7 +7,7 @@ from rest_framework import viewsets ,status
 from rest_framework.response import Response
 from rest_framework.decorators import action ,api_view
 from rest_framework_simplejwt.tokens import RefreshToken
-from GYMapp.serializers import  EMSerializer, LoginSerializer
+from GYMapp.serializers import  EMSerializer, LoginSerializer ,TokenSerializer
 #from GYMapp.serializers import CustomTokenObtainPairSerializer
 #from rest_framework_simplejwt.views import TokenObtainPairView
 import jwt
@@ -72,7 +72,6 @@ class LogViewSet(viewsets.ModelViewSet):
     def getCustom(self, request):
         Username = request.GET.get('username')
         Password = request.GET.get('password')
-        
                 
         queryset = EMmodel.objects.get(username=Username)
         serializer = LoginSerializer(queryset)
@@ -92,18 +91,18 @@ class customToken(viewsets.ModelViewSet):
     def Custom_token(self, request):
         Username = request.GET.get('username')
         Password = request.GET.get('password')
-        print(Username)
-        print(Password)
                 
         queryset = EMmodel.objects.get(username=Username)
-        print(queryset)
         serializer = LoginSerializer(queryset)
         
         _password= serializer.data.get('password')
         
+        serializer_data = TokenSerializer(queryset)
+    
+        
         if _password == Password:
-            token = jwt.encode(serializer.data,settings.JWT_SECRET_KEY, algorithm="HS256")
-            return Response({token: token})
+            token = jwt.encode(serializer_data.data,settings.JWT_SECRET_KEY, algorithm="HS256")
+            return Response({"access": token})
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
