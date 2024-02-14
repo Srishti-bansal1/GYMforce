@@ -16,17 +16,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from GYMapp.views import EMViewSet, LogViewSet
+from GYMapp.views import EMViewSet, LogViewSet , customToken
 from GYMapp import views
 from rest_framework.routers import DefaultRouter
+#from GYMapp.views import  CustomTokenObtainPairView
+#from rest_framework_simplejwt.views import ( TokenObtainPairView, TokenRefreshView )
+#from rest_framework_simplejwt.views import TokenVerifyView
 
 router = DefaultRouter(trailing_slash=False)
 router.register(r'Em',EMViewSet, basename='Em')
 router.register(r'log',LogViewSet, basename='log')
+router.register(r'custom_token',customToken, basename='custom_token')
+# router.register(r'token', CustomTokenObtainPairView , basename='token' )
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('em/',include(router.urls)),
     path('Signup' , views.SignUp ),
     path('login' , views.Login),
+    #path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # explore it after some time
+    #path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    #path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    #path('api/custom_token', CustomTokenObtainPairView.as_view(), name='custom_token')
 ]
