@@ -23,6 +23,24 @@ from rest_framework.routers import DefaultRouter
 #from rest_framework_simplejwt.views import ( TokenObtainPairView, TokenRefreshView )
 #from rest_framework_simplejwt.views import TokenVerifyView
 
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="API Docs authencation",
+      default_version='v1',
+      description="Signup & Login Application",
+      terms_of_service="https://www.google.com/policies/terms/",
+      contact=openapi.Contact(email="contact@xyz.local"),
+      license=openapi.License(name="BSD License"),
+   ),
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
+
 router = DefaultRouter(trailing_slash=False)
 router.register(r'Em',EMViewSet, basename='Em')
 router.register(r'login',LogViewSet, basename='login')
@@ -38,4 +56,6 @@ urlpatterns = [
     #path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     #path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     #path('api/custom_token', CustomTokenObtainPairView.as_view(), name='custom_token')
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+
 ]
