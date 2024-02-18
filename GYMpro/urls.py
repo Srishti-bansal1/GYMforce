@@ -52,6 +52,7 @@ urlpatterns = [
     path('em/',include(router.urls)),
     path('Signup' , views.SignUp ),
     path('login' , views.Login),
+    path("Reset/", views.Reset),
     #path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # explore it after some time
     #path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     #path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),

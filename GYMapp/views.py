@@ -142,6 +142,12 @@ def SignUp(request):
 def Login(request):
     return render(request,'login.html', {'login': Login})
 
+@api_view(['GET'])   
+def Reset(request):
+    return render(request,'resetpassword.html', {'reset': Reset})
+
+
+
 '''class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
     token_obtain_pair = TokenObtainPairView.as_view()
