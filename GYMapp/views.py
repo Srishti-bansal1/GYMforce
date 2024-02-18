@@ -68,6 +68,9 @@ class EMViewSet(viewsets.ModelViewSet):
     
     
 class LogViewSet(viewsets.ModelViewSet):  
+    queryset = EMmodel.objects.all()
+    serializer_class = EMSerializer
+    
     @action(detail=False, methods=["GET"],url_path='get_user')
     def getCustom(self, request):
         Username = request.GET.get('username')
@@ -85,6 +88,30 @@ class LogViewSet(viewsets.ModelViewSet):
             return Response({"refresh": str(token), "access": str(token.access_token)}) 
         return Response(status=status.HTTP_401_UNAUTHORIZED)
    
+    @action(detail=False , methods=['PATCH'],url_path='update')
+    def updated(self,request):
+        Email = request.GET.get('email')
+        print(Email)
+        new_password = request.GET.get('password')
+        print(new_password)
+        
+        queryset = EMmodel.objects.get(email = Email)
+        print(queryset)
+        if not queryset:
+            return Response({'message' :'Unable to get account.'},status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = EMSerializer(queryset)
+        serializer_data = serializer.data
+        serializer_data["password"] = new_password
+        serializer = EMSerializer(instance = queryset,data= serializer_data)
+        
+        if serializer.is_valid():
+            print("as")
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(status=status.HTTP_304_NOT_MODIFIED)
+    
    
 class customToken(viewsets.ModelViewSet):
     @action(detail=False, methods=["GET"],url_path='cust_token')
